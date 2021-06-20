@@ -2,7 +2,7 @@
 Hangman game programming task for Motorola Academy application
 
 ## To-do
-Implement asking for player name for high score
+Add error handling for player name
 
 Redo High score table display
 

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.IO;
 using System.Data;
 
 namespace hangman
@@ -13,8 +12,9 @@ namespace hangman
         public DataTable scoreTable = new DataTable();
         DateTime currDate;
 
-        public HiScore(string aPlayerName, string aPlayTime, string aTotalTries, string aWordTgt)
+        public HiScore(string aPlayerName, GameState gameState)
         {
+            gameState.scoreSaved = true;
             scoreTable.ReadXml("hiscores.xml");
 
             // Get current date/time
@@ -25,9 +25,9 @@ namespace hangman
             DataRow aRow = scoreTable.NewRow();
             aRow[0] = aPlayerName;
             aRow[1] = playDate;
-            aRow[2] = aPlayTime;
-            aRow[3] = aTotalTries;
-            aRow[4] = aWordTgt;
+            aRow[2] = gameState.Timer;
+            aRow[3] = Convert.ToString(gameState.inputLettersList.Count + gameState.wordGuessCount);
+            aRow[4] = gameState.wordTgt;
             scoreTable.Rows.Add(aRow);
 
             // Sort DataTable - least total tries on top
@@ -42,7 +42,7 @@ namespace hangman
             scoreTable.WriteXml("hiscores.xml", XmlWriteMode.WriteSchema);
         }
 
-        public HiScore()
+        public HiScore(GameState gameState)
         {
             scoreTable.ReadXml("hiscores.xml");
         }

@@ -162,7 +162,7 @@ namespace hangman
                 Console.WriteLine();
                 Console.Write("Invalid selection, press enter to retry.");
                 Console.ReadLine();
-                if (gameState.gameWon == false)
+                if (gameState.gameWon == false && gameState.livesCur > 0)
                 {
                     RenderCore(gameState);
                 }
@@ -233,30 +233,41 @@ namespace hangman
             Console.Clear();
             if (gameState.gameWon == true)
             {
-                // Todo: Implement asking for player name
-                HiScore hiScore = new HiScore("TestPlayer", gameState.Timer, Convert.ToString(gameState.inputLettersList.Count + gameState.wordGuessCount), gameState.wordTgt);
                 Console.WriteLine("You guessed the capital. You win!");
                 Console.WriteLine();
                 Console.WriteLine(gameState.wordTgt + " is the capital of " + CapitalDict.capitalDict[gameState.wordTgt] + ".");
                 Console.WriteLine();
                 Console.WriteLine("You guessed the capital after " + gameState.inputLettersList.Count + " letter guesses and " + gameState.wordGuessCount + " word guesses." + " It took you " + gameState.Timer + ".");
-                Console.WriteLine();
-                HiScore.RenderScores(hiScore);
             }
             else
             {
-                HiScore hiScore = new HiScore();
                 Console.WriteLine("You lost all your lives. Game over!");
                 Console.WriteLine();
                 Console.WriteLine("The capital was " + gameState.wordTgt + ". It is the capital of " + CapitalDict.capitalDict[gameState.wordTgt] + ".");
                 Console.WriteLine();
                 Console.WriteLine("You had " + gameState.inputLettersList.Count + " letter guesses and " + gameState.wordGuessCount + " word guesses." + " You played for " + gameState.Timer + ".");
+            }
+
+            if (gameState.gameWon == true && gameState.scoreSaved == false)
+            {
+                Console.WriteLine();
+                Console.Write("Enter your name: ");
+
+                // todo: error handling here?
+                string playerName = Console.ReadLine();
+
+                Console.WriteLine();
+                HiScore hiScore = new HiScore(playerName, gameState);
+                HiScore.RenderScores(hiScore);
+            }
+            else
+            {
+                HiScore hiScore = new HiScore(gameState);
                 if (hiScore.scoreTable.Rows.Count > 0)
                 {
                     Console.WriteLine();
                     HiScore.RenderScores(hiScore);
                 }
-                
             }
 
             Console.WriteLine();

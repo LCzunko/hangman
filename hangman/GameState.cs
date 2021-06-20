@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace hangman
 {
-    class GameState
+    public class GameState
     {
         public int livesMax;
         public int livesCur;
@@ -22,6 +22,7 @@ namespace hangman
         public string timer;
         public int wordGuessCount;
         public Stopwatch stopwatch = new Stopwatch();
+        public bool scoreSaved;
 
         public GameState(string aWordTgt, int aLivesMax)
         {
@@ -31,6 +32,7 @@ namespace hangman
             hintGiven = false;
             wordGuessCount = 0;
             stopwatch.Start();
+            scoreSaved = false;
 
             wordTgt = aWordTgt;
             wordLen = wordTgt.Length;
