@@ -17,12 +17,14 @@ namespace hangman
         public List<char> inputLettersList = new List<char>();
         public List<char> wrongLettersList = new List<char>();
         public bool gameWon;
+        public bool hintGiven;
 
         public GameState(string aWordTgt, int aLivesMax)
         {
             livesMax = aLivesMax;
             livesCur = livesMax;
             gameWon = false;
+            hintGiven = false;
 
             wordTgt = aWordTgt;
             wordLen = wordTgt.Length;

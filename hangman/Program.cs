@@ -86,7 +86,6 @@ namespace hangman
 
                 gameContinue = GameOutro(gameState);
             }
-
         }
 
         static string ChooseWord(GameState gameState, int selectOption, Dictionary<string,string> capitalDict)
@@ -189,6 +188,14 @@ namespace hangman
 
         static void RenderCore(GameState gameState)
         {
+            if (gameState.livesCur == 1 && gameState.hintGiven == false)
+            {
+                gameState.hintGiven = true;
+                Console.WriteLine();
+                Console.Write("Hint: you are guessing the capital of " + CapitalDict.capitalDict[gameState.wordTgt] + ".");
+                Console.ReadLine();
+            }
+            
             Console.Clear();
             Console.WriteLine();
             foreach (char element in gameState.wordCurList) { Console.Write($"{element}"); }
@@ -207,7 +214,6 @@ namespace hangman
         static bool GameOutro(GameState gameState)
         {
             RenderOutro(gameState);
-
             int selectOption = ChooseOption(gameState);
 
             if (selectOption == 1)
@@ -223,7 +229,6 @@ namespace hangman
         static void RenderOutro(GameState gameState)
         {
             Console.Clear();
-
             if (gameState.gameWon == true)
             {
                 Console.WriteLine("You guessed the capital. You win!");
