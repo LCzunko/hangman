@@ -14,7 +14,8 @@ namespace hangman
         public int wordLen;
         public List<char> wordCurList = new List<char>();
         public List<char> wordTgtList = new List<char>();
-
+        public List<char> inputLettersList = new List<char>();
+        public List<char> wrongLettersList = new List<char>();
 
         public GameState(string aWordTgt, int aLivesMax)
         {
@@ -44,19 +45,13 @@ namespace hangman
             // testing
             Console.WriteLine("The correct Capital is " + wordTgt);
             Console.WriteLine();
-
-            wordCurList.ForEach(z => Console.Write("{0}", z));
-            wordTgtList.ForEach(z => Console.Write("{0}", z));
-
-
-            Console.WriteLine();
             Console.ReadLine();
             Console.Clear();
             // testing
 
         }
 
-        public static bool wordHasLetter(GameState gameState, char aSelectLetter)
+        public static bool wordHasLetter(GameState gameState, char aInputLetter)
         {
             List<char> wordTgtListLower = new List<char>();
             for (int i = 0; i < gameState.wordTgtList.Count; i++)
@@ -65,30 +60,45 @@ namespace hangman
             }
 
             // Returns the index of each instance of the guessed letter
-            int[] matchedLetters = wordTgtListLower.Select((c, i) => c == aSelectLetter ? i : -1).Where(i => i != -1).ToArray();
+            int[] matchedLetters = wordTgtListLower.Select((c, i) => c == aInputLetter ? i : -1).Where(i => i != -1).ToArray();
 
             if (matchedLetters.Length != 0)
             {
                 // do something
+
+                foreach (int element in matchedLetters)
+                {
+                    gameState.wordCurList[element] = gameState.wordTgtList[element];
+                }
+
+                foreach (char element in gameState.wrongLettersList) { Console.Write($"{element} "); }
+
+                for (int i = 0; i < matchedLetters.Length; i++)
+                {
+                    
+                    
+                    Console.Write(matchedLetters[i] + ", ");
+                }
+
+
+
+
                 Console.WriteLine("True");
 
+                //debug output
                 for (int i = 0; i < matchedLetters.Length; i++)
                 {
                     Console.Write(matchedLetters[i] + ", ");
                 }
-
                 Console.ReadLine();
-                Console.Clear();
+
                 return true;
             }
             else
             {
-                Console.WriteLine("False");
-                Console.ReadLine();
-                Console.Clear();
+                gameState.wrongLettersList.Add(Char.ToUpper(aInputLetter));
                 return false;
             }
-
         }
     }
 
