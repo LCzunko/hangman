@@ -65,6 +65,7 @@ namespace hangman
             get 
             {
                 timer = stopwatch.Elapsed.ToString(@"m\:ss");
+                stopwatch.Stop();
                 return timer;
             }
         }

@@ -13,6 +13,12 @@ namespace hangman
         {
             bool gameContinue = true;
 
+            //testing
+
+            HiScore hiScore = new HiScore("TestPlayer","1:30","12","Berlin");
+
+
+
             // Creating list of capitals from dictionary so a capital can be randomly selected via index
             List<string> capitalList = new List<string>(CapitalDict.capitalDict.Keys);
 
@@ -83,7 +89,6 @@ namespace hangman
                         }
                     }
                 }
-
                 gameContinue = GameOutro(gameState);
             }
         }
@@ -183,7 +188,7 @@ namespace hangman
             Console.WriteLine("You can guess one letter at a time. Guessing the wrong letter costs 1 life.");
             Console.WriteLine("When you think you have the answer, guess the entire capital! Beware, getting the capital wrong costs 2 lives.");
             Console.WriteLine();
-            Console.Write("Good luck! Press enter to continue.");
+            Console.Write("There is a special hint at 1 life left. Good luck! Press enter to continue.");
             Console.ReadLine();
 
             return;
@@ -234,19 +239,26 @@ namespace hangman
             Console.Clear();
             if (gameState.gameWon == true)
             {
+                // Todo: Implement asking for player name
+                HiScore hiScore = new HiScore("TestPlayer", gameState.Timer, Convert.ToString(gameState.inputLettersList.Count + gameState.wordGuessCount), gameState.wordTgt);
                 Console.WriteLine("You guessed the capital. You win!");
                 Console.WriteLine();
                 Console.WriteLine(gameState.wordTgt + " is the capital of " + CapitalDict.capitalDict[gameState.wordTgt] + ".");
                 Console.WriteLine();
-                Console.WriteLine("You guessed the capital after " + gameState.inputLettersList.Count + " letter guesses and " + gameState.wordGuessCount + " word guesses." + "It took you " + gameState.Timer + ".");
+                Console.WriteLine("You guessed the capital after " + gameState.inputLettersList.Count + " letter guesses and " + gameState.wordGuessCount + " word guesses." + " It took you " + gameState.Timer + ".");
+                Console.WriteLine();
+                HiScore.RenderScores(hiScore);
             }
             else
             {
+                HiScore hiScore = new HiScore();
                 Console.WriteLine("You lost all your lives. Game over!");
                 Console.WriteLine();
                 Console.WriteLine("The capital was " + gameState.wordTgt + ". It is the capital of " + CapitalDict.capitalDict[gameState.wordTgt] + ".");
                 Console.WriteLine();
-                Console.WriteLine("You had " + gameState.inputLettersList.Count + " letter guesses and " + gameState.wordGuessCount + " word guesses." + "You played for " + gameState.Timer + ".");
+                Console.WriteLine("You had " + gameState.inputLettersList.Count + " letter guesses and " + gameState.wordGuessCount + " word guesses." + " You played for " + gameState.Timer + ".");
+                Console.WriteLine();
+                HiScore.RenderScores(hiScore);
             }
 
             Console.WriteLine();
