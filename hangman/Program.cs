@@ -13,16 +13,8 @@ namespace hangman
         {
             bool gameContinue = true;
 
-            // Creating dictionary from file, capitals as keys and countries as values
-            Dictionary<string, string> capitalDict =
-                      File.ReadLines("countries_and_capitals.txt")
-                          .Select(line => line.Replace(" | ", "|"))
-                          .Select(line => line.Split('|'))
-                          .Select(line => line.Reverse())
-                          .ToDictionary(split => split.First(), split => split.Last(), StringComparer.InvariantCultureIgnoreCase); // StringComparer.InvariantCultureIgnoreCase makes containsKey method of dictionary case insensitive, see ChooseWord method
-
             // Creating list of capitals from dictionary so a capital can be randomly selected via index
-            List<string> capitalList = new List<string>(capitalDict.Keys);
+            List<string> capitalList = new List<string>(CapitalDict.capitalDict.Keys);
 
             while (gameContinue == true)
             {
@@ -71,7 +63,7 @@ namespace hangman
                         Console.WriteLine();
                         Console.Write("Guess the capital: ");
 
-                        string inputWord = ChooseWord(gameState, selectOption, capitalDict);
+                        string inputWord = ChooseWord(gameState, selectOption, CapitalDict.capitalDict);
 
                         // Giving proper capitalization to inputWord for later clean output in case user didn't capitalize
                         inputWord = capitalList[capitalList.FindIndex(x => x.Equals(inputWord, StringComparison.OrdinalIgnoreCase))];
@@ -236,13 +228,14 @@ namespace hangman
             {
                 Console.WriteLine("You guessed the capital. You win!");
                 Console.WriteLine();
-                // Console.WriteLine(gameState.wordTgt + " is the capital of " + capitalDict[gameState.wordTgt] + ".");
+                Console.WriteLine(gameState.wordTgt + " is the capital of " + CapitalDict.capitalDict[gameState.wordTgt] + ".");
             }
             else
             {
                 Console.WriteLine("You lost all your lives. Game over!");
                 Console.WriteLine();
-                // Console.WriteLine("The capital was " + gameState.wordTgt + ". It is the capital of " + capitalDict[gameState.wordTgt] + ".");
+                Console.WriteLine();
+                Console.WriteLine("The capital was " + gameState.wordTgt + ". It is the capital of " + CapitalDict.capitalDict[gameState.wordTgt] + ".");
             }
 
             Console.WriteLine();
