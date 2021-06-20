@@ -13,12 +13,6 @@ namespace hangman
         {
             bool gameContinue = true;
 
-            //testing
-
-            HiScore hiScore = new HiScore("TestPlayer","1:30","12","Berlin");
-
-
-
             // Creating list of capitals from dictionary so a capital can be randomly selected via index
             List<string> capitalList = new List<string>(CapitalDict.capitalDict.Keys);
 
@@ -257,8 +251,12 @@ namespace hangman
                 Console.WriteLine("The capital was " + gameState.wordTgt + ". It is the capital of " + CapitalDict.capitalDict[gameState.wordTgt] + ".");
                 Console.WriteLine();
                 Console.WriteLine("You had " + gameState.inputLettersList.Count + " letter guesses and " + gameState.wordGuessCount + " word guesses." + " You played for " + gameState.Timer + ".");
-                Console.WriteLine();
-                HiScore.RenderScores(hiScore);
+                if (hiScore.scoreTable.Rows.Count > 0)
+                {
+                    Console.WriteLine();
+                    HiScore.RenderScores(hiScore);
+                }
+                
             }
 
             Console.WriteLine();

@@ -15,42 +15,7 @@ namespace hangman
 
         public HiScore(string aPlayerName, string aPlayTime, string aTotalTries, string aWordTgt)
         {
-            // Create DataTable columns
-            // aPlayerName|playDate|aPlayTime|aTotalTries|aWordTgt
-            DataColumn column;
-            column = new DataColumn();
-            column.DataType = System.Type.GetType("System.String");
-            column.ColumnName = "Name";
-            scoreTable.Columns.Add(column);
-            column = new DataColumn();
-            column.DataType = System.Type.GetType("System.DateTime");
-            column.ColumnName = "Date";
-            scoreTable.Columns.Add(column);
-            column = new DataColumn();
-            column.DataType = System.Type.GetType("System.String");
-            column.ColumnName = "Time";
-            scoreTable.Columns.Add(column);
-            column = new DataColumn();
-            column.DataType = System.Type.GetType("System.Int32");
-            column.ColumnName = "Tries";
-            scoreTable.Columns.Add(column);
-            column = new DataColumn();
-            column.DataType = System.Type.GetType("System.String");
-            column.ColumnName = "Capital";
-            scoreTable.Columns.Add(column);
-
-            // Populate DataTable with existing hiscores.txt data
-            string[] txtLines = File.ReadAllLines("hiscores.txt");
-            foreach (string txtLine in txtLines)
-            {
-                var txtCols = txtLine.Split('|');
-                DataRow txtRow = scoreTable.NewRow();
-                for (int cIndex = 0; cIndex < 5; cIndex++)
-                {
-                    txtRow[cIndex] = txtCols[cIndex];
-                }
-                scoreTable.Rows.Add(txtRow);
-            }
+            scoreTable.ReadXml("hiscores.xml");
 
             // Get current date/time
             currDate = DateTime.Now;
@@ -71,49 +36,15 @@ namespace hangman
 
             // Keep only 10 best scores
             scoreTable = scoreTable.AsEnumerable().Take(10).CopyToDataTable();
+            scoreTable.TableName = "hangman";
 
             // Write updated DataTable to file
-            //todo
+            scoreTable.WriteXml("hiscores.xml", XmlWriteMode.WriteSchema);
         }
 
         public HiScore()
         {
-            // Create DataTable columns
-            // aPlayerName|playDate|aPlayTime|aTotalTries|aWordTgt
-            DataColumn column;
-            column = new DataColumn();
-            column.DataType = System.Type.GetType("System.String");
-            column.ColumnName = "Name";
-            scoreTable.Columns.Add(column);
-            column = new DataColumn();
-            column.DataType = System.Type.GetType("System.DateTime");
-            column.ColumnName = "Date";
-            scoreTable.Columns.Add(column);
-            column = new DataColumn();
-            column.DataType = System.Type.GetType("System.String");
-            column.ColumnName = "Time";
-            scoreTable.Columns.Add(column);
-            column = new DataColumn();
-            column.DataType = System.Type.GetType("System.Int32");
-            column.ColumnName = "Tries";
-            scoreTable.Columns.Add(column);
-            column = new DataColumn();
-            column.DataType = System.Type.GetType("System.String");
-            column.ColumnName = "Capital";
-            scoreTable.Columns.Add(column);
-
-            // Populate DataTable with existing hiscores.txt data
-            string[] txtLines = File.ReadAllLines("hiscores.txt");
-            foreach (string txtLine in txtLines)
-            {
-                var txtCols = txtLine.Split('|');
-                DataRow txtRow = scoreTable.NewRow();
-                for (int cIndex = 0; cIndex < 5; cIndex++)
-                {
-                    txtRow[cIndex] = txtCols[cIndex];
-                }
-                scoreTable.Rows.Add(txtRow);
-            }
+            scoreTable.ReadXml("hiscores.xml");
         }
 
         public static void RenderScores(HiScore hiScore)
@@ -144,8 +75,6 @@ namespace hangman
                 Console.WriteLine();
             }
         }
-
-
 
     }
 }
