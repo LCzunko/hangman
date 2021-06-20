@@ -16,11 +16,13 @@ namespace hangman
         public List<char> wordTgtList = new List<char>();
         public List<char> inputLettersList = new List<char>();
         public List<char> wrongLettersList = new List<char>();
+        public bool gameWon;
 
         public GameState(string aWordTgt, int aLivesMax)
         {
             livesMax = aLivesMax;
             livesCur = livesMax;
+            gameWon = false;
 
             wordTgt = aWordTgt;
             wordLen = wordTgt.Length;
@@ -44,7 +46,6 @@ namespace hangman
 
             // testing
             Console.WriteLine("The correct Capital is " + wordTgt);
-            Console.WriteLine();
             Console.ReadLine();
             Console.Clear();
             // testing
@@ -64,34 +65,10 @@ namespace hangman
 
             if (matchedLetters.Length != 0)
             {
-                // do something
-
                 foreach (int element in matchedLetters)
                 {
                     gameState.wordCurList[element] = gameState.wordTgtList[element];
                 }
-
-                foreach (char element in gameState.wrongLettersList) { Console.Write($"{element} "); }
-
-                for (int i = 0; i < matchedLetters.Length; i++)
-                {
-                    
-                    
-                    Console.Write(matchedLetters[i] + ", ");
-                }
-
-
-
-
-                Console.WriteLine("True");
-
-                //debug output
-                for (int i = 0; i < matchedLetters.Length; i++)
-                {
-                    Console.Write(matchedLetters[i] + ", ");
-                }
-                Console.ReadLine();
-
                 return true;
             }
             else
