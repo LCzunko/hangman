@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace hangman
 {
@@ -18,6 +19,9 @@ namespace hangman
         public List<char> wrongLettersList = new List<char>();
         public bool gameWon;
         public bool hintGiven;
+        public string timer;
+        public int wordGuessCount;
+        public Stopwatch stopwatch = new Stopwatch();
 
         public GameState(string aWordTgt, int aLivesMax)
         {
@@ -25,6 +29,8 @@ namespace hangman
             livesCur = livesMax;
             gameWon = false;
             hintGiven = false;
+            wordGuessCount = 0;
+            stopwatch.Start();
 
             wordTgt = aWordTgt;
             wordLen = wordTgt.Length;
@@ -45,13 +51,22 @@ namespace hangman
             {
                 wordTgtList.Add(wordTgt[i]);
             }
-
             // testing
+            Console.Clear();
+            Console.WriteLine("DEBUG");
             Console.WriteLine("The correct Capital is " + wordTgt);
             Console.ReadLine();
             Console.Clear();
             // testing
+        }
 
+        public string Timer
+        {
+            get 
+            {
+                timer = stopwatch.Elapsed.ToString(@"m\:ss");
+                return timer;
+            }
         }
 
         public static bool wordHasLetter(GameState gameState, char aInputLetter)

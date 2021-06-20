@@ -96,7 +96,10 @@ namespace hangman
             {
                 inputWord = Console.ReadLine();
 
-                if (capitalDict.ContainsKey(inputWord)) { break; }
+                if (capitalDict.ContainsKey(inputWord)) {
+                    gameState.wordGuessCount++;
+                    break;
+                }
                 Console.WriteLine();
                 Console.Write("That's not a valid capital, press enter to retry.");
                 Console.ReadLine();
@@ -178,7 +181,7 @@ namespace hangman
             Console.WriteLine("Welcome to Hangman!");
             Console.WriteLine("Your goal is to guess the capital of a country.");
             Console.WriteLine("You can guess one letter at a time. Guessing the wrong letter costs 1 life.");
-            Console.WriteLine("When you think you have the answer, guess the entire Capital! Beware, getting the capital wrong costs 2 lives.");
+            Console.WriteLine("When you think you have the answer, guess the entire capital! Beware, getting the capital wrong costs 2 lives.");
             Console.WriteLine();
             Console.Write("Good luck! Press enter to continue.");
             Console.ReadLine();
@@ -234,13 +237,16 @@ namespace hangman
                 Console.WriteLine("You guessed the capital. You win!");
                 Console.WriteLine();
                 Console.WriteLine(gameState.wordTgt + " is the capital of " + CapitalDict.capitalDict[gameState.wordTgt] + ".");
+                Console.WriteLine();
+                Console.WriteLine("You guessed the capital after " + gameState.inputLettersList.Count + " letter guesses and " + gameState.wordGuessCount + " word guesses." + "It took you " + gameState.Timer + ".");
             }
             else
             {
                 Console.WriteLine("You lost all your lives. Game over!");
                 Console.WriteLine();
-                Console.WriteLine();
                 Console.WriteLine("The capital was " + gameState.wordTgt + ". It is the capital of " + CapitalDict.capitalDict[gameState.wordTgt] + ".");
+                Console.WriteLine();
+                Console.WriteLine("You had " + gameState.inputLettersList.Count + " letter guesses and " + gameState.wordGuessCount + " word guesses." + "You played for " + gameState.Timer + ".");
             }
 
             Console.WriteLine();
