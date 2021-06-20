@@ -18,50 +18,48 @@ namespace hangman
                           .Select(line => line.Split('|'))
                           .Select(line => line.Reverse())
                           .ToDictionary(split => split.First(), split => split.Last(), StringComparer.InvariantCultureIgnoreCase);
+            // StringComparer.InvariantCultureIgnoreCase makes containsKey method of dictionary case insensitive, see ChooseWord method
 
             /* Testing dictionary
-
             foreach (KeyValuePair<string, string> pair in capitalDict)
-            {
-                Console.WriteLine(pair);
-            }
-
+            { Console.WriteLine(pair); }
             Console.ReadLine();
-
             */
 
+            // Creating list of capitals from dictionary so a capital can be randomly selected
             List<string> capitalList = new List<string>(capitalDict.Keys);
             Random rand = new Random();
-            string targetCapital = capitalList[rand.Next(capitalList.Count)];
-            HangCapital hangCapital = new HangCapital(targetCapital);
 
-            Lives lives = new Lives(5);
-            lives.curLives = lives.maxLives;
+            GameState gameState = new GameState(capitalList[rand.Next(capitalList.Count)],5);
 
             RenderIntro();
 
-            while (lives.curLives > 0)
+            while (gameState.livesCur > 0)
             {
-                RenderChoose(lives);
-                int selectGuess = ChooseGuess(lives);
+                RenderChoose(gameState);
+                int selectGuess = ChooseGuess(gameState);
 
                 if (selectGuess == 1)
                 {
-                    RenderGuessLetter(lives, selectGuess);
-                    char selectLetter = ChooseLetter(lives, selectGuess);
-                    Console.WriteLine("The character is " + selectLetter);
+                    RenderGuessLetter(gameState, selectGuess);
+                    char inputLetter = ChooseLetter(gameState, selectGuess);
+
+                    // For testing
+                    Console.WriteLine("The character is " + inputLetter);
                     Console.ReadLine();
 
-                    HangCapital.hangHasLetter(hangCapital, selectLetter);
+                    GameState.wordHasLetter(gameState, inputLetter);
 
                 }
                 else if (selectGuess == 2)
                 {
-                    RenderGuessCapital(lives, selectGuess);
-                    string selectCapital = ChooseCapital(lives, selectGuess, capitalDict);
-                    selectCapital = capitalList[capitalList.FindIndex(x => x.Equals(selectCapital, StringComparison.OrdinalIgnoreCase))];
+                    RenderGuessWord(gameState, selectGuess);
+                    string inputWord = ChooseWord(gameState, selectGuess, capitalDict);
 
-                    if (selectCapital == targetCapital)
+                    // Giving proper capitalization to inputWord for clean display output in case user didn't capitalize
+                    inputWord = capitalList[capitalList.FindIndex(x => x.Equals(inputWord, StringComparison.OrdinalIgnoreCase))];
+
+                    if (inputWord == gameState.wordTgt)
                     {
                         Console.WriteLine();
                         Console.WriteLine("You win!");
@@ -70,8 +68,8 @@ namespace hangman
                     }
                     else
                     {
-                        lives.curLives--;
-                        lives.curLives--;
+                        gameState.livesCur--;
+                        gameState.livesCur--;
                         Console.WriteLine();
                         Console.Write("That's not the correct capital, you lose 2 lives!");
                         Console.ReadLine();
@@ -85,44 +83,44 @@ namespace hangman
 
         }
 
-        static string ChooseCapital(Lives lives, int selectGuess, Dictionary<string,string> capitalDict)
+        static string ChooseWord(GameState gameState, int selectGuess, Dictionary<string,string> capitalDict)
         {
-            string selectCapital;
+            string inputWord;
 
             for (; ; )
             {
-                selectCapital = Console.ReadLine();
+                inputWord = Console.ReadLine();
 
-                if (capitalDict.ContainsKey(selectCapital)) { break; }
+                if (capitalDict.ContainsKey(inputWord)) { break; }
                 Console.WriteLine();
                 Console.Write("That's not a valid capital, press enter to retry.");
                 Console.ReadLine();
-                RenderGuessCapital(lives, selectGuess);
+                RenderGuessWord(gameState, selectGuess);
             }
 
-            return selectCapital;
+            return inputWord;
         }
 
-        static char ChooseLetter(Lives lives, int selectGuess)
+        static char ChooseLetter(GameState gameState, int selectGuess)
         {
-            char selectLetter ='0';
+            char inputLetter ='0';
 
             for (; ; )
             {
-                try { selectLetter = Convert.ToChar(Console.ReadLine()); }
+                try { inputLetter = Convert.ToChar(Console.ReadLine()); }
                 catch (System.FormatException) { }
-                if (Char.IsLetter(selectLetter)) break;
+                if (Char.IsLetter(inputLetter)) break;
                 Console.WriteLine();
                 Console.Write("Invalid selection, press enter to retry.");
                 Console.ReadLine();
-                RenderGuessLetter(lives, selectGuess);
+                RenderGuessLetter(gameState, selectGuess);
             }
 
-            selectLetter = Char.ToLower(selectLetter);
-            return selectLetter;
+            inputLetter = Char.ToLower(inputLetter);
+            return inputLetter;
         }
 
-        static int ChooseGuess(Lives lives)
+        static int ChooseGuess(GameState gameState)
         {
             int selectGuess = 0;
 
@@ -134,7 +132,7 @@ namespace hangman
                 Console.WriteLine();
                 Console.Write("Invalid selection, press enter to retry.");
                 Console.ReadLine();
-                RenderChoose(lives);
+                RenderChoose(gameState);
             }
 
             return selectGuess;
@@ -145,7 +143,7 @@ namespace hangman
             Console.WriteLine("Welcome to Hangman!");
             Console.WriteLine("Your goal is to guess the capital of a country.");
             Console.WriteLine("You can guess one letter at a time. Guessing the wrong letter costs 1 life.");
-            Console.WriteLine("When you think you have the answer, guess the entire Capital! Beware, getting the capital wrong costs 2 lives.");
+            Console.WriteLine("When you think you have the answer, guess the entire Capital! Beware, getting the capital wrong costs 2 gameState.");
             Console.WriteLine();
             Console.Write("Good luck! Press enter to continue.");
             Console.ReadLine();
@@ -153,20 +151,20 @@ namespace hangman
             return;
         }
 
-        static void RenderChoose(Lives lives)
+        static void RenderChoose(GameState gameState)
         {
             Console.Clear();
-            Console.WriteLine("Lives: " + lives.curLives);
+            Console.WriteLine("Lives: " + gameState.livesCur);
             Console.WriteLine();
             Console.Write("Enter \"1\" to guess a letter, or \"2\" to guess the whole Capital: ");
 
             return;
         }
 
-        static void RenderGuessLetter(Lives lives, int selectGuess)
+        static void RenderGuessLetter(GameState gameState, int selectGuess)
         {
             Console.Clear();
-            Console.WriteLine("Lives: " + lives.curLives);
+            Console.WriteLine("Lives: " + gameState.livesCur);
             Console.WriteLine();
             Console.WriteLine("Enter \"1\" to guess a letter, or \"2\" to guess the whole Capital: " + selectGuess);
             Console.WriteLine();
@@ -175,10 +173,10 @@ namespace hangman
             return;
         }
 
-        static void RenderGuessCapital(Lives lives, int selectGuess)
+        static void RenderGuessWord(GameState gameState, int selectGuess)
         {
             Console.Clear();
-            Console.WriteLine("Lives: " + lives.curLives);
+            Console.WriteLine("Lives: " + gameState.livesCur);
             Console.WriteLine();
             Console.WriteLine("Enter \"1\" to guess a letter, or \"2\" to guess the whole Capital: " + selectGuess);
             Console.WriteLine();
