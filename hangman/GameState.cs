@@ -24,19 +24,19 @@ namespace hangman
         public Stopwatch stopwatch = new Stopwatch();
         public bool scoreSaved;
 
-        public GameState(string aWordTgt, int aLivesMax)
+        public GameState(string word, int max)
         {
-            livesMax = aLivesMax;
+            livesMax = max;
+            wordTgt = word;
             livesCur = livesMax;
             gameWon = false;
             hintGiven = false;
             wordGuessCount = 0;
             stopwatch.Start();
             scoreSaved = false;
-
-            wordTgt = aWordTgt;
             wordLen = wordTgt.Length;
 
+            // Create list of characters that represent current state of guessed word
             for (int i = 0; i < wordLen; i++)
             {
                 if (wordTgt[i] == ' ')
@@ -49,10 +49,12 @@ namespace hangman
                 }
             }
 
+            // Create list of characters that represent target word to guess
             for (int i = 0; i < wordLen; i++)
             {
                 wordTgtList.Add(wordTgt[i]);
             }
+
             // testing
             Console.Clear();
             Console.WriteLine("DEBUG");
@@ -72,8 +74,9 @@ namespace hangman
             }
         }
 
-        public static bool wordHasLetter(GameState gameState, char aInputLetter)
+        public bool wordHasLetter(GameState gameState, char letter)
         {
+            // Create lowercase-only list of target characters for comparison
             List<char> wordTgtListLower = new List<char>();
             for (int i = 0; i < gameState.wordTgtList.Count; i++)
             {
@@ -81,10 +84,11 @@ namespace hangman
             }
 
             // Returns the index of each instance of the guessed letter
-            int[] matchedLetters = wordTgtListLower.Select((c, i) => c == aInputLetter ? i : -1).Where(i => i != -1).ToArray();
+            int[] matchedLetters = wordTgtListLower.Select((c, i) => c == letter ? i : -1).Where(i => i != -1).ToArray();
 
             if (matchedLetters.Length != 0)
             {
+                // If any letters were matched, update list that tracks current state of guessed word
                 foreach (int element in matchedLetters)
                 {
                     gameState.wordCurList[element] = gameState.wordTgtList[element];
@@ -93,7 +97,8 @@ namespace hangman
             }
             else
             {
-                gameState.wrongLettersList.Add(Char.ToUpper(aInputLetter));
+                // If no letters were matched add them to the wrong letters list (in uppercase for clean display)
+                gameState.wrongLettersList.Add(Char.ToUpper(letter));
                 return false;
             }
         }

@@ -12,9 +12,10 @@ namespace hangman
         public DataTable scoreTable = new DataTable();
         DateTime currDate;
 
-        public HiScore(string aPlayerName, GameState gameState)
+        public HiScore(string playerName, GameState gameState)
         {
             gameState.scoreSaved = true;
+            // Populate scoreTable with existing scores
             scoreTable.ReadXml("hiscores.xml");
 
             // Get current date/time
@@ -23,7 +24,7 @@ namespace hangman
 
             // Add new row with current score from args
             DataRow aRow = scoreTable.NewRow();
-            aRow[0] = aPlayerName;
+            aRow[0] = playerName;
             aRow[1] = playDate;
             aRow[2] = gameState.Timer;
             aRow[3] = Convert.ToString(gameState.inputLettersList.Count + gameState.wordGuessCount);
@@ -44,10 +45,11 @@ namespace hangman
 
         public HiScore(GameState gameState)
         {
+            // Populate scoreTable with existing scores
             scoreTable.ReadXml("hiscores.xml");
         }
 
-        public static void RenderScores(HiScore hiScore)
+        public void RenderScores(HiScore hiScore)
         {
             // TEST code from stackoverflow
             Dictionary<string, int> colWidths = new Dictionary<string, int>();
