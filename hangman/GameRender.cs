@@ -103,7 +103,7 @@ namespace hangman
             return;
         }
 
-        public void RenderAscii(int livesCur)
+        void RenderAscii(int livesCur)
         {
             switch (livesCur)
             {

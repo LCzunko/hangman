@@ -7,7 +7,7 @@ using System.Data;
 
 namespace hangman
 {
-    public class HiScore
+    class HiScore
     {
         public DataTable scoreTable = new DataTable();
         DateTime currDate;

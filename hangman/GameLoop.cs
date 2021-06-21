@@ -86,7 +86,7 @@ namespace hangman
             return gameState;
         }
 
-        public int ChooseOption(GameState gameState, Dictionary<string, string> capitalDict)
+        int ChooseOption(GameState gameState, Dictionary<string, string> capitalDict)
         {
             GameRender gameRender = new GameRender();
             int selectOption = 0;
@@ -114,7 +114,7 @@ namespace hangman
             return selectOption;
         }
 
-        public char ChooseLetter(GameState gameState, int selectOption, Dictionary<string, string> capitalDict)
+        char ChooseLetter(GameState gameState, int selectOption, Dictionary<string, string> capitalDict)
         {
             GameRender gameRender = new GameRender();
             char inputLetter = '0';
@@ -153,7 +153,7 @@ namespace hangman
             return inputLetter;
         }
 
-        public string ChooseWord(GameState gameState, int selectOption, Dictionary<string, string> capitalDict)
+        string ChooseWord(GameState gameState, int selectOption, Dictionary<string, string> capitalDict)
         {
             GameRender gameRender = new GameRender();
             string inputWord;
