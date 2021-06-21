@@ -71,10 +71,10 @@ namespace hangman
             if (gameState.gameWon == true && gameState.scoreSaved == false)
             {
                 Console.WriteLine();
-                Console.Write("Enter your name: ");
 
-                // todo: error handling here?
+                Console.Write("Enter your name (maximum 16 characters): ");
                 string playerName = Console.ReadLine();
+                if (playerName.Length > 16) { playerName = playerName.Substring(0, 16); }
 
                 Console.WriteLine();
                 HiScore hiScore = new HiScore(playerName, gameState);

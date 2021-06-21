@@ -23,13 +23,13 @@ namespace hangman
             string playDate = currDate.ToString();
 
             // Add new row with current score from args
-            DataRow aRow = scoreTable.NewRow();
-            aRow[0] = playerName;
-            aRow[1] = playDate;
-            aRow[2] = gameState.Timer;
-            aRow[3] = Convert.ToString(gameState.inputLettersList.Count + gameState.wordGuessCount);
-            aRow[4] = gameState.wordTgt;
-            scoreTable.Rows.Add(aRow);
+            DataRow row = scoreTable.NewRow();
+            row[0] = playerName;
+            row[1] = playDate;
+            row[2] = gameState.Timer;
+            row[3] = Convert.ToString(gameState.inputLettersList.Count + gameState.wordGuessCount);
+            row[4] = gameState.wordTgt;
+            scoreTable.Rows.Add(row);
 
             // Sort DataTable - least total tries on top
             scoreTable.DefaultView.Sort = "Tries asc";
@@ -51,32 +51,32 @@ namespace hangman
 
         public void RenderScores(HiScore hiScore)
         {
-            // TEST code from stackoverflow
-            Dictionary<string, int> colWidths = new Dictionary<string, int>();
-
-            foreach (DataColumn col in hiScore.scoreTable.Columns)
-            {
-                Console.Write(col.ColumnName);
-                var maxLabelSize = hiScore.scoreTable.Rows.OfType<DataRow>()
-                        .Select(m => (m.Field<object>(col.ColumnName)?.ToString() ?? "").Length)
-                        .OrderByDescending(m => m).FirstOrDefault();
-
-                colWidths.Add(col.ColumnName, maxLabelSize);
-                for (int i = 0; i < maxLabelSize - col.ColumnName.Length + 10; i++) Console.Write(" ");
-            }
-
+            // Write header
+            Console.Write("Name                 Date                    Time      Tries     Capital");
             Console.WriteLine();
 
-            foreach (DataRow dataRow in hiScore.scoreTable.Rows)
+            // Write rows
+            foreach (DataRow row in hiScore.scoreTable.Rows)
             {
-                for (int j = 0; j < dataRow.ItemArray.Length; j++)
-                {
-                    Console.Write(dataRow.ItemArray[j]);
-                    for (int i = 0; i < colWidths[hiScore.scoreTable.Columns[j].ColumnName] - dataRow.ItemArray[j].ToString().Length + 10; i++) Console.Write(" ");
-                }
+                string col0;
+                try { col0 = Convert.ToString(row[0]); }
+                catch { col0 = " "; }
+                string col1 = Convert.ToString(row[1]);
+                string col2 = Convert.ToString(row[2]);
+                string col3 = Convert.ToString(row[3]);
+                string col4 = Convert.ToString(row[4]);
+
+                Console.Write(col0);
+                for (int i = (21 - col0.Length); i > 0; i--) { Console.Write(" "); }
+                Console.Write(col1);
+                for (int i = (24 - col1.Length); i > 0; i--) { Console.Write(" "); }
+                Console.Write(col2);
+                for (int i = (10 - col2.Length); i > 0; i--) { Console.Write(" "); }
+                Console.Write(col3);
+                for (int i = (10 - col3.Length); i > 0; i--) { Console.Write(" "); }
+                Console.Write(col4);
                 Console.WriteLine();
             }
         }
-
     }
 }
