@@ -10,11 +10,11 @@ namespace hangman
     public class GameState
     {
         public int livesMax;
-        public int livesCur;
-        public string wordTgt;
+        public int livesCurrent;
+        public string wordTarget;
         public int wordLen;
-        public List<char> wordCurList = new List<char>();
-        public List<char> wordTgtList = new List<char>();
+        public List<char> wordCurrentList = new List<char>();
+        public List<char> wordTargetList = new List<char>();
         public List<char> inputLettersList = new List<char>();
         public List<char> wrongLettersList = new List<char>();
         public bool gameWon;
@@ -27,38 +27,38 @@ namespace hangman
         public GameState(string word, int max)
         {
             livesMax = max;
-            wordTgt = word;
-            livesCur = livesMax;
+            wordTarget = word;
+            livesCurrent = livesMax;
             gameWon = false;
             hintGiven = false;
             wordGuessCount = 0;
             stopwatch.Start();
             scoreSaved = false;
-            wordLen = wordTgt.Length;
+            wordLen = wordTarget.Length;
 
             // Create list of characters that represent current state of guessed word
             for (int i = 0; i < wordLen; i++)
             {
-                if (wordTgt[i] == ' ')
+                if (wordTarget[i] == ' ')
                 {
-                    wordCurList.Add(' ');
+                    wordCurrentList.Add(' ');
                 }
                 else
                 {
-                    wordCurList.Add('_');
+                    wordCurrentList.Add('_');
                 }
             }
 
             // Create list of characters that represent target word to guess
             for (int i = 0; i < wordLen; i++)
             {
-                wordTgtList.Add(wordTgt[i]);
+                wordTargetList.Add(wordTarget[i]);
             }
 
             // testing
             Console.Clear();
             Console.WriteLine("DEBUG");
-            Console.WriteLine("The correct Capital is " + wordTgt);
+            Console.WriteLine("The correct Capital is " + wordTarget);
             Console.ReadLine();
             Console.Clear();
             // testing
@@ -77,21 +77,21 @@ namespace hangman
         public bool wordHasLetter(GameState gameState, char letter)
         {
             // Create lowercase-only list of target characters for comparison
-            List<char> wordTgtListLower = new List<char>();
-            for (int i = 0; i < gameState.wordTgtList.Count; i++)
+            List<char> wordTargetListLower = new List<char>();
+            for (int i = 0; i < gameState.wordTargetList.Count; i++)
             {
-                wordTgtListLower.Add(char.ToLower(gameState.wordTgtList[i]));
+                wordTargetListLower.Add(char.ToLower(gameState.wordTargetList[i]));
             }
 
             // Returns the index of each instance of the guessed letter
-            int[] matchedLetters = wordTgtListLower.Select((c, i) => c == letter ? i : -1).Where(i => i != -1).ToArray();
+            int[] matchedLetters = wordTargetListLower.Select((c, i) => c == letter ? i : -1).Where(i => i != -1).ToArray();
 
             if (matchedLetters.Length != 0)
             {
                 // If any letters were matched, update list that tracks current state of guessed word
-                foreach (int element in matchedLetters)
+                foreach (int i in matchedLetters)
                 {
-                    gameState.wordCurList[element] = gameState.wordTgtList[element];
+                    gameState.wordCurrentList[i] = gameState.wordTargetList[i];
                 }
                 return true;
             }

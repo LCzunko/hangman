@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace hangman
 {
-    class GameLoop
+    class Game
     {
         public GameState gameLoop(Dictionary<string, string> capitalDict)
         {
@@ -21,7 +21,7 @@ namespace hangman
             gameRender.RenderIntro();
 
             // Game loops while lives are above 0, winning exits loop with break
-            while (gameState.livesCur > 0)
+            while (gameState.livesCurrent > 0)
             {
                 gameRender.RenderCore(gameState, capitalDict);
                 
@@ -39,7 +39,7 @@ namespace hangman
                     if (gameState.wordHasLetter(gameState, inputLetter))
                     {
                         // Checks if player has guessed all the letters
-                        if (gameState.wordCurList.SequenceEqual(gameState.wordTgtList))
+                        if (gameState.wordCurrentList.SequenceEqual(gameState.wordTargetList))
                         {
                             gameState.gameWon = true;
                             break;
@@ -47,7 +47,7 @@ namespace hangman
                     }
                     else
                     {
-                        gameState.livesCur--;
+                        gameState.livesCurrent--;
                         Console.WriteLine();
                         Console.Write("The capital doesn't contain this letter, you lose 1 life!");
                         Console.ReadLine();
@@ -67,15 +67,15 @@ namespace hangman
                     // Giving proper capitalization to inputWord for later clean output in case user didn't capitalize
                     inputWord = capitalList[capitalList.FindIndex(x => x.Equals(inputWord, StringComparison.OrdinalIgnoreCase))];
 
-                    if (inputWord == gameState.wordTgt)
+                    if (inputWord == gameState.wordTarget)
                     {
                         gameState.gameWon = true;
                         break;
                     }
                     else
                     {
-                        gameState.livesCur--;
-                        gameState.livesCur--;
+                        gameState.livesCurrent--;
+                        gameState.livesCurrent--;
                         Console.WriteLine();
                         Console.Write("That's not the correct capital, you lose 2 lives!");
                         Console.ReadLine();
@@ -101,7 +101,7 @@ namespace hangman
                 Console.ReadLine();
 
                 // Different renders for ChooseOption depending on whether it's being used to select letter/word guess or restart/exit
-                if (gameState.gameWon == false && gameState.livesCur > 0)
+                if (gameState.gameWon == false && gameState.livesCurrent > 0)
                 {
                     gameRender.RenderCore(gameState, capitalDict);
                 }

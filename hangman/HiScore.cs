@@ -28,7 +28,7 @@ namespace hangman
             row[1] = playDate;
             row[2] = gameState.Timer;
             row[3] = Convert.ToString(gameState.inputLettersList.Count + gameState.wordGuessCount);
-            row[4] = gameState.wordTgt;
+            row[4] = gameState.wordTarget;
             scoreTable.Rows.Add(row);
 
             // Sort DataTable - least total tries on top
@@ -58,23 +58,23 @@ namespace hangman
             // Write rows
             foreach (DataRow row in hiScore.scoreTable.Rows)
             {
-                string col0;
-                try { col0 = Convert.ToString(row[0]); }
-                catch { col0 = " "; }
-                string col1 = Convert.ToString(row[1]);
-                string col2 = Convert.ToString(row[2]);
-                string col3 = Convert.ToString(row[3]);
-                string col4 = Convert.ToString(row[4]);
+                string playerName;
+                try { playerName = Convert.ToString(row[0]); }
+                catch { playerName = " "; }
+                string date = Convert.ToString(row[1]);
+                string timer = Convert.ToString(row[2]);
+                string guessCount = Convert.ToString(row[3]);
+                string wordTarget = Convert.ToString(row[4]);
 
-                Console.Write(col0);
-                for (int i = (21 - col0.Length); i > 0; i--) { Console.Write(" "); }
-                Console.Write(col1);
-                for (int i = (24 - col1.Length); i > 0; i--) { Console.Write(" "); }
-                Console.Write(col2);
-                for (int i = (10 - col2.Length); i > 0; i--) { Console.Write(" "); }
-                Console.Write(col3);
-                for (int i = (10 - col3.Length); i > 0; i--) { Console.Write(" "); }
-                Console.Write(col4);
+                Console.Write(playerName);
+                for (int i = (21 - playerName.Length); i > 0; i--) { Console.Write(" "); }
+                Console.Write(date);
+                for (int i = (24 - date.Length); i > 0; i--) { Console.Write(" "); }
+                Console.Write(timer);
+                for (int i = (10 - timer.Length); i > 0; i--) { Console.Write(" "); }
+                Console.Write(guessCount);
+                for (int i = (10 - guessCount.Length); i > 0; i--) { Console.Write(" "); }
+                Console.Write(wordTarget);
                 Console.WriteLine();
             }
         }

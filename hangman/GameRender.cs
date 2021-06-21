@@ -27,19 +27,19 @@ namespace hangman
         public void RenderCore(GameState gameState, Dictionary<string, string> capitalDict)
         {
             // Render hint at 1 life
-            if (gameState.livesCur == 1 && gameState.hintGiven == false)
+            if (gameState.livesCurrent == 1 && gameState.hintGiven == false)
             {
                 gameState.hintGiven = true;
                 Console.WriteLine();
-                Console.Write("Hint: you are guessing the capital of " + capitalDict[gameState.wordTgt] + ".");
+                Console.Write("Hint: you are guessing the capital of " + capitalDict[gameState.wordTarget] + ".");
                 Console.ReadLine();
             }
 
             Console.Clear();
-            RenderAscii(gameState.livesCur);
-            Console.WriteLine("Lives: " + gameState.livesCur);
+            RenderAscii(gameState.livesCurrent);
+            Console.WriteLine("Lives: " + gameState.livesCurrent);
             Console.WriteLine();
-            foreach (char element in gameState.wordCurList) { Console.Write($"{element}"); }
+            foreach (char element in gameState.wordCurrentList) { Console.Write($"{element}"); }
             Console.WriteLine();
             Console.WriteLine();
             Console.Write("Wrong letters: ");
@@ -54,13 +54,13 @@ namespace hangman
         public void RenderOutro(GameState gameState, Dictionary<string, string> capitalDict)
         {
             Console.Clear();
-            RenderAscii(gameState.livesCur);
+            RenderAscii(gameState.livesCurrent);
             Console.WriteLine();
             if (gameState.gameWon == true)
             {
                 Console.WriteLine("You guessed the capital. You win!");
                 Console.WriteLine();
-                Console.WriteLine(gameState.wordTgt + " is the capital of " + capitalDict[gameState.wordTgt] + ".");
+                Console.WriteLine(gameState.wordTarget + " is the capital of " + capitalDict[gameState.wordTarget] + ".");
                 Console.WriteLine();
                 Console.WriteLine("You guessed the capital after " + gameState.inputLettersList.Count + " letter guesses and " + gameState.wordGuessCount + " word guesses." + " It took you " + gameState.Timer + ".");
             }
@@ -68,7 +68,7 @@ namespace hangman
             {
                 Console.WriteLine("You lost all your lives. Game over!");
                 Console.WriteLine();
-                Console.WriteLine("The capital was " + gameState.wordTgt + ". It is the capital of " + capitalDict[gameState.wordTgt] + ".");
+                Console.WriteLine("The capital was " + gameState.wordTarget + ". It is the capital of " + capitalDict[gameState.wordTarget] + ".");
                 Console.WriteLine();
                 Console.WriteLine("You had " + gameState.inputLettersList.Count + " letter guesses and " + gameState.wordGuessCount + " word guesses." + " You played for " + gameState.Timer + ".");
             }

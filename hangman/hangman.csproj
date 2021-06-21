@@ -59,7 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CapitalDictProvider.cs" />
-    <Compile Include="GameLoop.cs" />
+    <Compile Include="Game.cs" />
     <Compile Include="GameRender.cs" />
     <Compile Include="GameState.cs" />
     <Compile Include="HiScore.cs" />

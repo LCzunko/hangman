@@ -17,9 +17,9 @@ namespace hangman
             // Game loops if user decides to start over
             while (gameContinue == true)
             {
-                GameLoop gameLoop = new GameLoop();
-                GameState gameState = gameLoop.gameLoop(capitalDict);
-                gameContinue = gameLoop.ChooseOutro(gameState, capitalDict);
+                Game newGame = new Game();
+                GameState gameState = newGame.gameLoop(capitalDict);
+                gameContinue = newGame.ChooseOutro(gameState, capitalDict);
             }
         }
 
