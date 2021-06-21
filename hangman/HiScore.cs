@@ -43,7 +43,7 @@ namespace hangman
             scoreTable.WriteXml("hiscores.xml", XmlWriteMode.WriteSchema);
         }
 
-        public HiScore(GameState gameState)
+        public HiScore()
         {
             // Populate scoreTable with existing scores
             scoreTable.ReadXml("hiscores.xml");

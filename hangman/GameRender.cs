@@ -87,7 +87,7 @@ namespace hangman
             }
             else
             {
-                HiScore hiScore = new HiScore(gameState);
+                HiScore hiScore = new HiScore();
 
                 // Only renders scores if there are any
                 if (hiScore.scoreTable.Rows.Count > 0)
