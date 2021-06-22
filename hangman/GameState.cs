@@ -23,6 +23,7 @@ namespace hangman
         public int wordGuessCount;
         public Stopwatch stopwatch = new Stopwatch();
         public bool scoreSaved;
+        public bool startOver;
 
         public GameState(string word, int max)
         {

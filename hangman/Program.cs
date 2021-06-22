@@ -19,7 +19,7 @@ namespace hangman
             {
                 Game newGame = new Game();
                 GameState gameState = newGame.GameLoop(capitalDict);
-                gameContinue = newGame.ChooseOutro(gameState, capitalDict);
+                gameContinue = gameState.startOver;
             }
         }
 

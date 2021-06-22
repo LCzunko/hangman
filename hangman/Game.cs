@@ -26,25 +26,19 @@ namespace hangman
                 if (gameState.gameWon == true) break;
             }
 
+            GameOutro(gameState, capitalDict);
             return gameState;
         }
 
-        public bool ChooseOutro(GameState gameState, Dictionary<string, string> capitalDict)
+        GameState GameOutro(GameState gameState, Dictionary<string, string> capitalDict)
         {
             Render gameRender = new Render();
             gameRender.RenderOutro(gameState, capitalDict);
 
-            // Start over or exit
             int selectOption = ChooseOption(gameState, capitalDict);
-            if (selectOption == 1) return true;
-            else return false;
-        }
-
-        string RandomizeCapital(Dictionary<string, string> capitalDict)
-        {
-            Random rand = new Random();
-            List<string> capitalList = new List<string>(capitalDict.Keys);
-            return capitalList[rand.Next(capitalList.Count)];
+            if (selectOption == 1) gameState.startOver = true;
+            else gameState.startOver = false;
+            return gameState;
         }
 
         GameState GuessLetter(GameState gameState, Dictionary<string, string> capitalDict, int selectOption)
@@ -175,6 +169,13 @@ namespace hangman
             }
 
             return inputWord;
+        }
+
+        string RandomizeCapital(Dictionary<string, string> capitalDict)
+        {
+            Random rand = new Random();
+            List<string> capitalList = new List<string>(capitalDict.Keys);
+            return capitalList[rand.Next(capitalList.Count)];
         }
 
     }
