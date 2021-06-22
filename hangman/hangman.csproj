@@ -60,7 +60,7 @@
   <ItemGroup>
     <Compile Include="CapitalDictProvider.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="GameRender.cs" />
+    <Compile Include="Render.cs" />
     <Compile Include="GameState.cs" />
     <Compile Include="HiScore.cs" />
     <Compile Include="Program.cs" />

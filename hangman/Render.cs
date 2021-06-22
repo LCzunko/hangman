@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace hangman
 {
-    class GameRender
+    class Render
     {
 
         public void RenderIntro()

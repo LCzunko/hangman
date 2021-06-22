@@ -17,7 +17,7 @@ namespace hangman
             // Create gameState with selected random capital and 5 lives
             GameState gameState = new GameState(capitalList[rand.Next(capitalList.Count)], 5);
             
-            GameRender gameRender = new GameRender();
+            Render gameRender = new Render();
             gameRender.RenderIntro();
 
             // Game loops while lives are above 0, winning exits loop with break
@@ -88,7 +88,7 @@ namespace hangman
 
         int ChooseOption(GameState gameState, Dictionary<string, string> capitalDict)
         {
-            GameRender gameRender = new GameRender();
+            Render gameRender = new Render();
             int selectOption = 0;
 
             for (; ; )
@@ -116,7 +116,7 @@ namespace hangman
 
         char ChooseLetter(GameState gameState, int selectOption, Dictionary<string, string> capitalDict)
         {
-            GameRender gameRender = new GameRender();
+            Render gameRender = new Render();
             char inputLetter = '0';
 
             for (; ; )
@@ -155,7 +155,7 @@ namespace hangman
 
         string ChooseWord(GameState gameState, int selectOption, Dictionary<string, string> capitalDict)
         {
-            GameRender gameRender = new GameRender();
+            Render gameRender = new Render();
             string inputWord;
             
             for (; ; )
@@ -182,7 +182,7 @@ namespace hangman
 
         public bool ChooseOutro(GameState gameState, Dictionary<string, string> capitalDict)
         {
-            GameRender gameRender = new GameRender();
+            Render gameRender = new Render();
             gameRender.RenderOutro(gameState, capitalDict);
 
             // Start over or exit
