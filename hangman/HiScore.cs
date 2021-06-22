@@ -52,6 +52,7 @@ namespace hangman
         public void RenderScores(HiScore hiScore)
         {
             // Write header
+            Console.WriteLine();
             Console.Write("Name                 Date                    Time      Tries     Capital");
             Console.WriteLine();
 

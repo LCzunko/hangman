@@ -20,8 +20,6 @@ namespace hangman
             Console.WriteLine();
             Console.Write("There is a special hint at 1 life left. Good luck! Press enter to continue.");
             Console.ReadLine();
-
-            return;
         }
 
         public void RenderCore(GameState gameState, Dictionary<string, string> capitalDict)
@@ -41,8 +39,6 @@ namespace hangman
             Console.WriteLine();
             Console.WriteLine();
             Console.Write("Enter \"1\" to guess a letter, or \"2\" to guess the whole Capital: ");
-
-            return;
         }
 
         public void RenderOutro(GameState gameState, Dictionary<string, string> capitalDict)
@@ -50,51 +46,15 @@ namespace hangman
             Console.Clear();
             RenderAscii(gameState.livesCurrent);
             Console.WriteLine();
-            if (gameState.gameWon == true)
-            {
-                Console.WriteLine("You guessed the capital. You win!");
-                Console.WriteLine();
-                Console.WriteLine(gameState.wordTarget + " is the capital of " + capitalDict[gameState.wordTarget] + ".");
-                Console.WriteLine();
-                Console.WriteLine("You guessed the capital after " + gameState.inputLettersList.Count + " letter guesses and " + gameState.wordGuessCount + " word guesses." + " It took you " + gameState.Timer + ".");
-            }
-            else
-            {
-                Console.WriteLine("You lost all your lives. Game over!");
-                Console.WriteLine();
-                Console.WriteLine("The capital was " + gameState.wordTarget + ". It is the capital of " + capitalDict[gameState.wordTarget] + ".");
-                Console.WriteLine();
-                Console.WriteLine("You had " + gameState.inputLettersList.Count + " letter guesses and " + gameState.wordGuessCount + " word guesses." + " You played for " + gameState.Timer + ".");
-            }
 
-            if (gameState.gameWon == true && gameState.scoreSaved == false)
-            {
-                Console.WriteLine();
+            if (gameState.gameWon == true) RenderWin(gameState, capitalDict);
+            else RenderLoss(gameState, capitalDict);
 
-                Console.Write("Enter your name (maximum 16 characters): ");
-                string playerName = Console.ReadLine();
-                if (playerName.Length > 16) { playerName = playerName.Substring(0, 16); }
-
-                Console.WriteLine();
-                HiScore hiScore = new HiScore(playerName, gameState);
-                hiScore.RenderScores(hiScore);
-            }
-            else
-            {
-                HiScore hiScore = new HiScore();
-
-                // Only renders scores if there are any
-                if (hiScore.scoreTable.Rows.Count > 0)
-                {
-                    Console.WriteLine();
-                    hiScore.RenderScores(hiScore);
-                }
-            }
+            if (gameState.gameWon == true && gameState.scoreSaved == false) RenderSaveScore(gameState);
+            else RenderScore();
 
             Console.WriteLine();
             Console.Write("Enter \"1\" to start over, or \"2\" to exit: ");
-
-            return;
         }
 
         void RenderHint(GameState gameState, Dictionary<string, string> capitalDict)
@@ -103,6 +63,43 @@ namespace hangman
             Console.WriteLine();
             Console.Write("Hint: you are guessing the capital of " + capitalDict[gameState.wordTarget] + ".");
             Console.ReadLine();
+        }
+
+        void RenderWin(GameState gameState, Dictionary<string, string> capitalDict)
+        {
+            Console.WriteLine("You guessed the capital. You win!");
+            Console.WriteLine();
+            Console.WriteLine(gameState.wordTarget + " is the capital of " + capitalDict[gameState.wordTarget] + ".");
+            Console.WriteLine();
+            Console.WriteLine("You guessed the capital after " + gameState.inputLettersList.Count + " letter guesses and " + gameState.wordGuessCount + " word guesses." + " It took you " + gameState.Timer + ".");
+        }
+
+        void RenderLoss(GameState gameState, Dictionary<string, string> capitalDict)
+        {
+            Console.WriteLine("You lost all your lives. Game over!");
+            Console.WriteLine();
+            Console.WriteLine("The capital was " + gameState.wordTarget + ". It is the capital of " + capitalDict[gameState.wordTarget] + ".");
+            Console.WriteLine();
+            Console.WriteLine("You had " + gameState.inputLettersList.Count + " letter guesses and " + gameState.wordGuessCount + " word guesses." + " You played for " + gameState.Timer + ".");
+        }
+
+        GameState RenderSaveScore(GameState gameState)
+        {
+            Console.WriteLine();
+            Console.Write("Enter your name (maximum 16 characters): ");
+
+            string playerName = Console.ReadLine();
+            if (playerName.Length > 16) playerName = playerName.Substring(0, 16);
+
+            HiScore hiScore = new HiScore(playerName, gameState);
+            hiScore.RenderScores(hiScore);
+            return gameState;
+        }
+
+        public void RenderScore()
+        {
+            HiScore hiScore = new HiScore();
+            if (hiScore.scoreTable.Rows.Count > 0) hiScore.RenderScores(hiScore);
         }
 
         void RenderAscii(int livesCur)
