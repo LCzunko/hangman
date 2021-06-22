@@ -18,7 +18,7 @@ namespace hangman
             while (gameContinue == true)
             {
                 Game newGame = new Game();
-                GameState gameState = newGame.gameLoop(capitalDict);
+                GameState gameState = newGame.GameLoop(capitalDict);
                 gameContinue = newGame.ChooseOutro(gameState, capitalDict);
             }
         }

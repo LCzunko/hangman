@@ -8,15 +8,9 @@ namespace hangman
 {
     class Game
     {
-        public GameState gameLoop(Dictionary<string, string> capitalDict)
+        public GameState GameLoop(Dictionary<string, string> capitalDict)
         {
-            // Select random capital from list by index
-            Random rand = new Random();
-            List<string> capitalList = new List<string>(capitalDict.Keys);
-
-            // Create gameState with selected random capital and 5 lives
-            GameState gameState = new GameState(capitalList[rand.Next(capitalList.Count)], 5);
-            
+            GameState gameState = new GameState(RandomizeCapital(capitalDict), 5);
             Render gameRender = new Render();
             gameRender.RenderIntro();
 
@@ -27,62 +21,77 @@ namespace hangman
                 
                 // Option 1 to guess letter, 2 to guess whole word
                 int selectOption = ChooseOption(gameState, capitalDict);
-                if (selectOption == 1)
-                {
-                    gameRender.RenderCore(gameState, capitalDict);
-                    Console.Write(selectOption);
-                    Console.WriteLine();
-                    Console.WriteLine();
-                    Console.Write("Guess a letter: ");
-
-                    char inputLetter = ChooseLetter(gameState, selectOption, capitalDict);
-                    if (gameState.wordHasLetter(gameState, inputLetter))
-                    {
-                        // Checks if player has guessed all the letters
-                        if (gameState.wordCurrentList.SequenceEqual(gameState.wordTargetList))
-                        {
-                            gameState.gameWon = true;
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        gameState.livesCurrent--;
-                        Console.WriteLine();
-                        Console.Write("The capital doesn't contain this letter, you lose 1 life!");
-                        Console.ReadLine();
-                    }
-
-                }
-                else if (selectOption == 2)
-                {
-                    gameRender.RenderCore(gameState, capitalDict);
-                    Console.Write(selectOption);
-                    Console.WriteLine();
-                    Console.WriteLine();
-                    Console.Write("Guess the capital: ");
-
-                    string inputWord = ChooseWord(gameState, selectOption, capitalDict);
-
-                    // Giving proper capitalization to inputWord for later clean output in case user didn't capitalize
-                    inputWord = capitalList[capitalList.FindIndex(x => x.Equals(inputWord, StringComparison.OrdinalIgnoreCase))];
-
-                    if (inputWord == gameState.wordTarget)
-                    {
-                        gameState.gameWon = true;
-                        break;
-                    }
-                    else
-                    {
-                        gameState.livesCurrent--;
-                        gameState.livesCurrent--;
-                        Console.WriteLine();
-                        Console.Write("That's not the correct capital, you lose 2 lives!");
-                        Console.ReadLine();
-                    }
-                }
+                if (selectOption == 1) GuessLetter(gameState, capitalDict, selectOption);
+                else if (selectOption == 2) GuessWord(gameState, capitalDict, selectOption);
+                if (gameState.gameWon == true) break;
             }
 
+            return gameState;
+        }
+
+        public bool ChooseOutro(GameState gameState, Dictionary<string, string> capitalDict)
+        {
+            Render gameRender = new Render();
+            gameRender.RenderOutro(gameState, capitalDict);
+
+            // Start over or exit
+            int selectOption = ChooseOption(gameState, capitalDict);
+            if (selectOption == 1) return true;
+            else return false;
+        }
+
+        string RandomizeCapital(Dictionary<string, string> capitalDict)
+        {
+            Random rand = new Random();
+            List<string> capitalList = new List<string>(capitalDict.Keys);
+            return capitalList[rand.Next(capitalList.Count)];
+        }
+
+        GameState GuessLetter(GameState gameState, Dictionary<string, string> capitalDict, int selectOption)
+        {
+            Render gameRender = new Render();
+            gameRender.RenderCore(gameState, capitalDict);
+            Console.Write(selectOption);
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.Write("Guess a letter: ");
+
+            char inputLetter = ChooseLetter(gameState, selectOption, capitalDict);
+            if (gameState.WordHasLetter(gameState, inputLetter))
+            {
+                // Checks if player has guessed all the letters
+                if (gameState.wordCurrentList.SequenceEqual(gameState.wordTargetList)) gameState.gameWon = true;
+            }
+            else
+            {
+                gameState.livesCurrent--;
+                Console.WriteLine();
+                Console.Write("The capital doesn't contain this letter, you lose 1 life!");
+                Console.ReadLine();
+            }
+            return gameState;
+        }
+
+        GameState GuessWord(GameState gameState, Dictionary<string, string> capitalDict, int selectOption)
+        {
+            Render gameRender = new Render();
+            gameRender.RenderCore(gameState, capitalDict);
+            Console.Write(selectOption);
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.Write("Guess the capital: ");
+
+            string inputWord = ChooseWord(gameState, selectOption, capitalDict);
+
+            if (inputWord.Equals(gameState.wordTarget, StringComparison.CurrentCultureIgnoreCase)) gameState.gameWon = true;
+            else
+            {
+                gameState.livesCurrent--;
+                gameState.livesCurrent--;
+                Console.WriteLine();
+                Console.Write("That's not the correct capital, you lose 2 lives!");
+                Console.ReadLine();
+            }
             return gameState;
         }
 
@@ -128,10 +137,7 @@ namespace hangman
                     }
                     else Console.WriteLine("You already guessed this letter, press enter to retry.");
                 }
-                else
-                {
-                    Console.WriteLine("Invalid input, press enter to retry.");
-                }
+                else Console.WriteLine("Invalid input, press enter to retry.");
 
                 Console.ReadLine();
                 gameRender.RenderCore(gameState, capitalDict);
@@ -169,17 +175,6 @@ namespace hangman
             }
 
             return inputWord;
-        }
-
-        public bool ChooseOutro(GameState gameState, Dictionary<string, string> capitalDict)
-        {
-            Render gameRender = new Render();
-            gameRender.RenderOutro(gameState, capitalDict);
-
-            // Start over or exit
-            int selectOption = ChooseOption(gameState, capitalDict);
-            if (selectOption == 1) return true;
-            else return false;
         }
 
     }

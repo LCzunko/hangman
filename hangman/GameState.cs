@@ -65,7 +65,7 @@ namespace hangman
             }
         }
 
-        public bool wordHasLetter(GameState gameState, char letter)
+        public bool WordHasLetter(GameState gameState, char letter)
         {
             // Create lowercase-only list of target characters for comparison
             List<char> wordTargetListLower = new List<char>();
