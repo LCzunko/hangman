@@ -67,13 +67,13 @@ namespace hangman
                 string wordTarget = Convert.ToString(row[4]);
 
                 Console.Write(playerName);
-                for (int i = (21 - playerName.Length); i > 0; i--) { Console.Write(" "); }
+                for (int i = (21 - playerName.Length); i > 0; i--) Console.Write(" ");
                 Console.Write(date);
-                for (int i = (24 - date.Length); i > 0; i--) { Console.Write(" "); }
+                for (int i = (24 - date.Length); i > 0; i--) Console.Write(" ");
                 Console.Write(timer);
-                for (int i = (10 - timer.Length); i > 0; i--) { Console.Write(" "); }
+                for (int i = (10 - timer.Length); i > 0; i--) Console.Write(" ");
                 Console.Write(guessCount);
-                for (int i = (10 - guessCount.Length); i > 0; i--) { Console.Write(" "); }
+                for (int i = (10 - guessCount.Length); i > 0; i--) Console.Write(" ");
                 Console.Write(wordTarget);
                 Console.WriteLine();
             }

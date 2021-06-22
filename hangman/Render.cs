@@ -33,11 +33,11 @@ namespace hangman
             RenderAscii(gameState.livesCurrent);
             Console.WriteLine("Lives: " + gameState.livesCurrent);
             Console.WriteLine();
-            foreach (char element in gameState.wordCurrentList) { Console.Write($"{element}"); }
+            foreach (char letter in gameState.wordCurrentList) Console.Write($"{letter}");
             Console.WriteLine();
             Console.WriteLine();
             Console.Write("Wrong letters: ");
-            foreach (char element in gameState.wrongLettersList) { Console.Write($"{element} "); }
+            foreach (char letter in gameState.wrongLettersList) Console.Write($"{letter} ");
             Console.WriteLine();
             Console.WriteLine();
             Console.Write("Enter \"1\" to guess a letter, or \"2\" to guess the whole Capital: ");

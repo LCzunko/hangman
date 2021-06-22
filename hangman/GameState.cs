@@ -39,21 +39,12 @@ namespace hangman
             // Create list of characters that represent current state of guessed word
             for (int i = 0; i < wordLen; i++)
             {
-                if (wordTarget[i] == ' ')
-                {
-                    wordCurrentList.Add(' ');
-                }
-                else
-                {
-                    wordCurrentList.Add('_');
-                }
+                if (wordTarget[i] == ' ') wordCurrentList.Add(' ');
+                else wordCurrentList.Add('_');
             }
 
             // Create list of characters that represent target word to guess
-            for (int i = 0; i < wordLen; i++)
-            {
-                wordTargetList.Add(wordTarget[i]);
-            }
+            for (int i = 0; i < wordLen; i++) wordTargetList.Add(wordTarget[i]);
 
             // testing
             Console.Clear();
@@ -78,10 +69,7 @@ namespace hangman
         {
             // Create lowercase-only list of target characters for comparison
             List<char> wordTargetListLower = new List<char>();
-            for (int i = 0; i < gameState.wordTargetList.Count; i++)
-            {
-                wordTargetListLower.Add(char.ToLower(gameState.wordTargetList[i]));
-            }
+            for (int i = 0; i < gameState.wordTargetList.Count; i++) wordTargetListLower.Add(char.ToLower(gameState.wordTargetList[i]));
 
             // Returns the index of each instance of the guessed letter
             int[] matchedLetters = wordTargetListLower.Select((c, i) => c == letter ? i : -1).Where(i => i != -1).ToArray();
@@ -89,10 +77,7 @@ namespace hangman
             if (matchedLetters.Length != 0)
             {
                 // If any letters were matched, update list that tracks current state of guessed word
-                foreach (int i in matchedLetters)
-                {
-                    gameState.wordCurrentList[i] = gameState.wordTargetList[i];
-                }
+                foreach (int i in matchedLetters) gameState.wordCurrentList[i] = gameState.wordTargetList[i];
                 return true;
             }
             else

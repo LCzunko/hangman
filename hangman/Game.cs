@@ -101,14 +101,8 @@ namespace hangman
                 Console.ReadLine();
 
                 // Different renders for ChooseOption depending on whether it's being used to select letter/word guess or restart/exit
-                if (gameState.gameWon == false && gameState.livesCurrent > 0)
-                {
-                    gameRender.RenderCore(gameState, capitalDict);
-                }
-                else
-                {
-                    gameRender.RenderOutro(gameState, capitalDict);
-                }
+                if (gameState.gameWon == false && gameState.livesCurrent > 0) gameRender.RenderCore(gameState, capitalDict);
+                else gameRender.RenderOutro(gameState, capitalDict);
             }
 
             return selectOption;
@@ -132,10 +126,7 @@ namespace hangman
                         gameState.inputLettersList.Add(inputLetter);
                         break;
                     }
-                    else
-                    {
-                        Console.WriteLine("You already guessed this letter, press enter to retry.");
-                    }
+                    else Console.WriteLine("You already guessed this letter, press enter to retry.");
                 }
                 else
                 {
@@ -187,14 +178,8 @@ namespace hangman
 
             // Start over or exit
             int selectOption = ChooseOption(gameState, capitalDict);
-            if (selectOption == 1)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            if (selectOption == 1) return true;
+            else return false;
         }
 
     }
