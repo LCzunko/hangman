@@ -11,14 +11,17 @@ namespace hangman
         static void Main(string[] args)
         {
             // Creating dictionary of key=Capital,value=Country from "countries_and_capitals.txt"
-            Dictionary<string, string> capitalDict = new CapitalDictProvider().capitalDict;
+            CapitalDictProvider dictProvider = new CapitalDictProvider();
+            Dictionary<string, string> capitalDict = dictProvider.capitalDict;
+            Render gameRender = new Render();
 
-            bool gameContinue = true;
             // Game loops if user decides to start over
+            bool gameContinue = true;
             while (gameContinue == true)
             {
-                Game newGame = new Game(capitalDict);
-                GameState gameState = newGame.GameLoop();
+                GameState gameState = new GameState(dictProvider.RandomCapital, 5);
+                Game newGame = new Game(gameRender, gameState, capitalDict);
+                newGame.GameLoop();
                 gameContinue = gameState.startOver;
             }
         }

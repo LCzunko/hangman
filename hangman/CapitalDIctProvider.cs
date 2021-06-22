@@ -15,5 +15,16 @@ namespace hangman
                     .Select(line => line.Split('|'))
                     .Select(line => line.Reverse())
                     .ToDictionary(split => split.First(), split => split.Last(), StringComparer.InvariantCultureIgnoreCase); // StringComparer.InvariantCultureIgnoreCase makes containsKey method of dictionary case insensitive, see ChooseWord method
+
+        public string RandomCapital
+        {
+            get
+            {
+                Random rand = new Random();
+                List<string> capitalList = new List<string>(capitalDict.Keys);
+                return capitalList[rand.Next(capitalList.Count)];
+            }
+        }
+
     }
 }

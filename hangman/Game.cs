@@ -12,14 +12,14 @@ namespace hangman
         private Render gameRender;
         private readonly Dictionary<string, string> capitalDict;
 
-        public Game(Dictionary<string, string> capitalDictData)
+        public Game(Render renderData, GameState gameStateData, Dictionary<string, string> capitalDictData)
         {
+            gameRender = renderData;
+            gameState = gameStateData;
             capitalDict = capitalDictData;
-            gameState = new GameState(RandomizeCapital(), 5);
-            gameRender = new Render();
         }
 
-        public GameState GameLoop()
+        public void GameLoop()
         {
             gameRender.RenderIntro();
 
@@ -36,14 +36,13 @@ namespace hangman
             }
 
             GameOutro();
-            return gameState;
         }
 
         void GameOutro()
         {
             gameRender.RenderOutro(gameState, capitalDict);
-
             int selectOption = ChooseOption();
+            Console.Clear();
             if (selectOption == 1) gameState.startOver = true;
             else gameState.startOver = false;
         }
@@ -171,12 +170,6 @@ namespace hangman
             return inputWord;
         }
 
-        string RandomizeCapital()
-        {
-            Random rand = new Random();
-            List<string> capitalList = new List<string>(capitalDict.Keys);
-            return capitalList[rand.Next(capitalList.Count)];
-        }
 
     }
 }
