@@ -12,18 +12,25 @@ namespace hangman
         public int livesMax;
         public int livesCurrent;
         public string wordTarget;
-        public int wordLen;
         public List<char> wordCurrentList = new List<char>();
         public List<char> wordTargetList = new List<char>();
         public List<char> inputLettersList = new List<char>();
         public List<char> wrongLettersList = new List<char>();
         public bool gameWon;
         public bool hintGiven;
-        public string timer;
         public int wordGuessCount;
-        public Stopwatch stopwatch = new Stopwatch();
         public bool scoreSaved;
         public bool startOver;
+        private Stopwatch stopwatch = new Stopwatch();
+
+        public string Timer
+        {
+            get
+            {
+                stopwatch.Stop();
+                return stopwatch.Elapsed.ToString(@"m\:ss");
+            }
+        }
 
         public GameState(string word, int max)
         {
@@ -33,9 +40,10 @@ namespace hangman
             gameWon = false;
             hintGiven = false;
             wordGuessCount = 0;
-            stopwatch.Start();
             scoreSaved = false;
-            wordLen = wordTarget.Length;
+
+            stopwatch.Start();
+            int wordLen = wordTarget.Length;
 
             // Create list of characters that represent current state of guessed word
             for (int i = 0; i < wordLen; i++)
@@ -54,16 +62,6 @@ namespace hangman
             Console.ReadLine();
             Console.Clear();
             // testing
-        }
-
-        public string Timer
-        {
-            get 
-            {
-                timer = stopwatch.Elapsed.ToString(@"m\:ss");
-                stopwatch.Stop();
-                return timer;
-            }
         }
 
         public bool WordHasLetter(GameState gameState, char letter)

@@ -88,7 +88,7 @@ namespace hangman
             Console.WriteLine("You had " + gameState.inputLettersList.Count + " letter guesses and " + gameState.wordGuessCount + " word guesses." + " You played for " + gameState.Timer + ".");
         }
 
-        GameState RenderSaveScore(GameState gameState)
+        void RenderSaveScore(GameState gameState)
         {
             Console.WriteLine();
             Console.Write("Enter your name (maximum 16 characters): ");
@@ -98,10 +98,9 @@ namespace hangman
 
             HiScore hiScore = new HiScore(playerName, gameState);
             hiScore.RenderScores(hiScore);
-            return gameState;
         }
 
-        public void RenderScore()
+        void RenderScore()
         {
             HiScore hiScore = new HiScore();
             if (hiScore.scoreTable.Rows.Count > 0) hiScore.RenderScores(hiScore);
