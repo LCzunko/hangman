@@ -50,7 +50,12 @@ namespace hangman
             if (gameState.gameWon == true) RenderWin(gameState, capitalDict);
             else RenderLoss(gameState, capitalDict);
 
-            if (gameState.gameWon == true && gameState.scoreSaved == false) RenderSaveScore(gameState);
+            if (gameState.gameWon == true && gameState.scoreSaved == false)
+            {
+                gameState.scoreSaved = true;
+                RenderSaveScore(gameState);
+            }
+
             else RenderScore();
 
             Console.WriteLine();

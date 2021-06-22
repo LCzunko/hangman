@@ -14,7 +14,6 @@ namespace hangman
 
         public HiScore(string playerName, GameState gameState)
         {
-            gameState.scoreSaved = true;
             // Populate scoreTable with existing scores
             scoreTable.ReadXml("hiscores.xml");
 
