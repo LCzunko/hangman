@@ -54,14 +54,6 @@ namespace hangman
 
             // Create list of characters that represent target word to guess
             for (int i = 0; i < wordLen; i++) wordTargetList.Add(wordTarget[i]);
-
-            // testing
-            Console.Clear();
-            Console.WriteLine("DEBUG");
-            Console.WriteLine("The correct Capital is " + wordTarget);
-            Console.ReadLine();
-            Console.Clear();
-            // testing
         }
 
         public bool WordHasLetter(GameState gameState, char letter)
