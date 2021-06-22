@@ -27,13 +27,7 @@ namespace hangman
         public void RenderCore(GameState gameState, Dictionary<string, string> capitalDict)
         {
             // Render hint at 1 life
-            if (gameState.livesCurrent == 1 && gameState.hintGiven == false)
-            {
-                gameState.hintGiven = true;
-                Console.WriteLine();
-                Console.Write("Hint: you are guessing the capital of " + capitalDict[gameState.wordTarget] + ".");
-                Console.ReadLine();
-            }
+            if (gameState.livesCurrent == 1 && gameState.hintGiven == false) RenderHint(gameState, capitalDict);
 
             Console.Clear();
             RenderAscii(gameState.livesCurrent);
@@ -101,6 +95,14 @@ namespace hangman
             Console.Write("Enter \"1\" to start over, or \"2\" to exit: ");
 
             return;
+        }
+
+        void RenderHint(GameState gameState, Dictionary<string, string> capitalDict)
+        {
+            gameState.hintGiven = true;
+            Console.WriteLine();
+            Console.Write("Hint: you are guessing the capital of " + capitalDict[gameState.wordTarget] + ".");
+            Console.ReadLine();
         }
 
         void RenderAscii(int livesCur)
