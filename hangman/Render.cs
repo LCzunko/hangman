@@ -55,7 +55,6 @@ namespace hangman
                 gameState.scoreSaved = true;
                 RenderSaveScore(gameState);
             }
-
             else RenderScore();
 
             Console.WriteLine();

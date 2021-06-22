@@ -50,7 +50,6 @@ namespace hangman
 
         void GuessLetter(int selectOption)
         {
-            
             gameRender.RenderCore(gameState, capitalDict);
             Console.Write(selectOption);
             Console.WriteLine();
@@ -74,7 +73,6 @@ namespace hangman
 
         void GuessWord(int selectOption)
         {
-            
             gameRender.RenderCore(gameState, capitalDict);
             Console.Write(selectOption);
             Console.WriteLine();
@@ -96,7 +94,6 @@ namespace hangman
 
         int ChooseOption()
         {
-            
             int selectOption = 0;
 
             for (; ; )
@@ -118,7 +115,6 @@ namespace hangman
 
         char ChooseLetter(int selectOption)
         {
-            
             char inputLetter = '0';
 
             for (; ; )
@@ -151,7 +147,6 @@ namespace hangman
 
         string ChooseWord(int selectOption)
         {
-            
             string inputWord;
             
             for (; ; )
